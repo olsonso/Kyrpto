@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { postTransaction } from '../actions/index';
+import { fetchUser } from '../actions/index';
 import RaisedButton from 'material-ui/RaisedButton';
 import LoadingSpinner from '../components/loadingSpinner';
 import TransactionGraph from '../components/TransactionGraph';
@@ -32,6 +33,7 @@ class SendJobCoins extends Component{
 onSubmit(event) {	
     event.preventDefault();
     this.props.postTransaction(this.state.toAddress, this.state.fromAddress, this.state.amount);
+    this.props.fetchUser(this.state.fromAddress);
     this.setState({
          toAddress:'',
          fromAddress:'',
@@ -47,20 +49,20 @@ render(){
           <h2 className="form-signin-heading">Send JobCoins!</h2>
           <p></p>
           <input 
-          value={this.state.toAddress}
-          onChange={this.onChange}
-          type="text" 
-          className="form-control" 
-          name="toAddress" 
-          placeholder="Your Address" 
-          required="" 
-          autofocus="" />
-          <input 
           value={this.state.fromAddress}
           onChange={this.onChange}
           type="text" 
           className="form-control" 
           name="fromAddress" 
+          placeholder="Your Address" 
+          required="" 
+          autofocus="" />
+          <input 
+          value={this.state.toAddress}
+          onChange={this.onChange}
+          type="text" 
+          className="form-control" 
+          name="toAddress" 
           placeholder="Send To" 
           required="" 
           autofocus="" />
@@ -84,12 +86,12 @@ render(){
 const mapStateToProps = (state) => {
   return {
     balance: state.balance,
-    address: state.toAddress
+    address: state.address
   };
 };
 
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({postTransaction}, dispatch)
+	return bindActionCreators({postTransaction, fetchUser}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendJobCoins);

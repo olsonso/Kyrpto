@@ -12,15 +12,11 @@ const styles = {
 
 class navBar extends Component {
 
-	constructor(props){
-      super(props);
-    }
-
 	render(){
 		return(
 	
 	<AppBar 
-		title={<span style={styles.title}> Jobcoin {this.props.user} </span>}
+		title={<span style={styles.title}> Hello, {this.props.user} </span>}
 		iconElementRight={<FlatButton label="Logout" href="/login"/>}
 		/>
 

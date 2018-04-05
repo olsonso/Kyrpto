@@ -28,11 +28,11 @@ export function fetchTransactions(address){
 	};
 }
 
-export function postTransaction(fromAddress, toAddress, amount){
+export function postTransaction(toAddress, fromAddress, amount){
 	const data = {
-			amount: amount,
+			toAddress:toAddress,
 			fromAddress: fromAddress,
-			toAddress:toAddress
+			amount: amount
 			 }
 	const url = `${ROOT_URL}transactions`;
 	return{

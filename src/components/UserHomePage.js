@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import Nav from './Nav';
 import Balance from './Balance';
-import TransactionGraph from './TransactionGraph';
- import {connect} from 'react-redux';
- import SendJobCoins from '../containers/SendJobCoins';
+import TransactionGraph from '../containers/TransactionGraph';
+import {connect} from 'react-redux';
+import SendJobCoins from '../containers/SendJobCoins';
+import { fetchUser } from '../actions/index';
+import { bindActionCreators } from 'redux';
 
 class UserHomePage extends Component {
 
@@ -11,23 +13,27 @@ class UserHomePage extends Component {
       super(props);
     }
 
+
 componentWillReceiveProps(nextProps) {
    // so this is when the props changed.
    // so if the balance change, you'd have to re-fetch.  
-   console.log("component will recieve props");
    console.log(this.props.balance, nextProps.balance);
    // if (this.props.balance !== nextProps.balance) {
-   //     this.props.(nextProps.balance);
+   //     this.props(nextProps.balance);
    // }
 }
+  componentDidMount(){
+    fetchUser(this.props.location.state.address);
+
+  }
 
   render() {
 
     return (
     	<div>
-    	<Nav user = {this.props.address} />
+    	<Nav user = {this.props.location.state.address} />
     	<Balance balance = {this.props.balance} />
-    	<TransactionGraph data={this.props.transactions} />
+    	<TransactionGraph  user = {this.props.location.state.address}/>
     	<SendJobCoins balance = {this.props.balance}/>    	
       </div>
     );
@@ -35,7 +41,11 @@ componentWillReceiveProps(nextProps) {
 }
 
 function mapStateToProps(state){
-  return {balance:state.balance, transactions:state.transactions}
-}    
+  return {balance:state.balance}
+}   
 
-export default connect(mapStateToProps)(UserHomePage);
+ function mapDispatchToProps(dispatch){
+    return bindActionCreators({fetchUser}, dispatch)
+  } 
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserHomePage);

@@ -13,16 +13,18 @@ class TransactionGraph extends Component {
 		this.state={
 			transactions:[]
 		} 
+		}
 
-	}
+
 
 renderTransactions(transactionData){
 		const amounts= transactionData.transactions.map(transactions => ({
 			amount:transactions.amount, toAddress:Moment(transactions.timestamp, 'YYYY-MM-DD HH m').format('MM/DD/YYYY HH m')}));
-			var values = {};
+		var values = {};
 			amounts.forEach(function(o){	
-   			 	values[o.toAddress] = o.amount;
-   				return values;
+   			 values[o.toAddress] = o.amount;
+   		
+   			 return values;
 			})
 		return (
 			<ColumnChart width={650} data={values} />
@@ -34,7 +36,7 @@ renderTransactions(transactionData){
 		<div>
 		
 		<div className="wrapper-right">
-			<h1> Trransactions: </h1>
+			<h1> Transactions: </h1>
 			{this.props.transactions.map(this.renderTransactions)}
 			</div>
 			</div>
